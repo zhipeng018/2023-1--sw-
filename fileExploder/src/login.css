@@ -1,0 +1,73 @@
+h1{
+    text-align: center;
+}
+
+#git{
+    position: relative;
+    left: 160px;
+    top: 30px;
+}
+
+body{
+    background-color:lightgray;
+}
+
+.sign-in{
+    position: relative;
+    margin: 20px;
+    top: 30px;
+}
+
+label{
+    position: absolute;
+    top: -20px; 
+    left: 0;
+    display: block
+}
+
+input {
+    width: 380px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .log:nth-of-type(2) label {
+    top: 50px;
+  }
+  .log:nth-of-type(2) input {
+    top: 70px;
+  }
+
+  .bg{
+    width: 420px;
+    height: 420px;
+    margin: 0;
+  }
+  #userpsw{
+    position: relative;
+    top: 30px;
+  }
+
+  #loginbtn{
+    position: relative;
+    top: 50px;
+    left: 170px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+  }
+  /* .dialog{
+    width: 420px;
+    height: 220px;
+    margin: 0;
+    background-color: whitesmoke;
+    position: relative;
+
+    
+} */
