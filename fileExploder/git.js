@@ -44,7 +44,8 @@ await git.git.add('.');
 await git.git.commit('Initial commit');
 
 // 将本地更改推送到远程仓库
-await git.git.push('origin', 'master');
+await git.git.push('origin', 'main');
+
 
 // 检查远程仓库是否包含提交的更改
 const remoteCommits = await git.git.log(['origin/master']);
