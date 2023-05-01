@@ -32,6 +32,28 @@ await git.initRepo(path);
 await git.connectToGitHub();
 
 console.log('Connected to GitHub!');
+// 在本地仓库中创建一个文件并提交更改
+const fs = require('fs');
+
+if (!fs.existsSync(path)) {
+  fs.mkdirSync(path);
+}
+
+fs.writeFileSync(`${path}/test.txt`, 'Hello World');
+await git.git.add('.');
+await git.git.commit('Initial commit');
+
+// 将本地更改推送到远程仓库
+await git.git.push('origin', 'master');
+
+// 检查远程仓库是否包含提交的更改
+const remoteCommits = await git.git.log(['origin/master']);
+if (remoteCommits.total === 1) {
+  console.log('Connected to GitHub and successfully pushed changes!');
+} else {
+  console.log('Failed to push changes to GitHub!');
+}
+
 }
 
 test();
