@@ -170,3 +170,19 @@
         left: 440px;
         bottom: 18px;
     }
+
+    #file_print {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    #file_print li {
+      margin: 10px;
+    }
+    
+    #file_print li img {
+      width: 30px; /* 替换成您希望的宽度 */
+      height: 30px; /* 替换成您希望的高度 */
+    }

@@ -19,49 +19,172 @@
           </script>
         </h1>
     </div>
-    <div class="mac-finder">
-        <div class="sidebar">
-          <ul>
-            <li><a href="#">桌面</a></li>
-            <li><a href="#">文稿</a></li>
-            <li><a href="#">下载</a></li>
-            <li><a href="#">应用程序</a></li>
-            <li><a href="#">音乐</a></li>
-            <li><a href="#">图片</a></li>
-            <li><a href="#">电影</a></li>
-            <li><a href="#">收藏</a></li>
-          </ul>
-        </div>
-        <div class="main-content">
-            <div class="navbar">
-              <ul>
-                <li>
-                  <button id="back">back</button>
-                </li>
-                <li><button id="add">add</button></li>
-                <li><button id="delete">delete</button></li>
-                <form action="">
-                    <div>
-                      <label>
-                        <img src="/Users/wangzhipeng/fileExploder/src/resources/search.PNG" id= "search" alt="search" height="30" width="30">
-                      </label>
-                      <input type="text" name="filename" placeholder="Search">
-                    </div>    
-                </form>
-              </ul>
-            </div>
-            <div class="file-list">
-                <ul>
-                  <li><a href="#">文件1</a></li>
-                  <li><a href="#">文件2</a></li>
-                  <li><a href="#">文件3</a></li>
-                  <li><a href="#">文件4</a></li>
-                  <li><a href="#">文件5</a></li>
-                </ul>
-        
-            </div>
-        </div>
+    <div class="file_List">
+      <div class="navbar">
+        <ul>
+          <li>
+            <button id="backButton">Back</button>
+            <script>
+              backButton.addEventListener('click', () => {
+                const currentPath = fileList.getAttribute('data-path');
+                const parentPath = path.dirname(currentPath);
+                if(parentPath !== '/'){
+                  updateFileList(parentPath);
+                }
+              })
+            </script>
+          </li>
+          <li>
+            <button id="createFile">add</button>
+            <script id="file-add.js">
+            </script>
+          </li>
+          <li><button id="delete">delete</button></li>
+          <form action="">
+              <div>
+                <label>
+                  <img src="/Users/wangzhipeng/fileExploder/src/resources/search.PNG" id= "search" alt="search" height="30" width="30">
+                </label>
+                <input type="text" name="filename" placeholder="Search">
+              </div>    
+          </form>
+        </ul>
       </div>
+      <div class="sidebar">
+        <ul id="fileList">
+
+        </ul>
+      </div>
+
+      <div class="main-content">
+
+            <div class="filePrint">
+                <ul id="filePrint">
+
+                </ul>
+
+            </div>
+
+            
+      </div>
+
+      <script>
+        const { ipcRenderer } = require('electron');
+        const fs = require('fs');
+
+        const fileList = document.getElementById('fileList');
+        const filePrint = document.getElementById('filePrint');
+        const backButton = document.getElementById('backButton');
+        const path = require('path');
+
+        let currentDir = '/';
+
+        function updateFileList(dirPath) {
+          
+          let currentDir = dirPath;
+          fs.readdir(dirPath, (err, files) => {
+           if (err) {
+             console.error(err);
+             return;
+           }
+          
+           fileList.innerHTML = '';
+           console.log('Files in directory:', dirPath);
+           files.forEach(file => {
+             const listItem = document.createElement('li');
+             const link = document.createElement('a');
+             const filePath = `${dirPath}/${file}`;
+
+             fs.stat(filePath,(err,stats) => {
+              if(err){
+                console.error(err);
+                return;
+              }
+              if(stats.isDirectory()){
+                link.setAttribute('data-type', 'directory');
+                link.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${file}`;
+              }else{
+                link.setAttribute('data-type', 'file');
+                link.innerHTML = file;
+              }
+             })
+             link.setAttribute('href', `file://${dirPath}/${file}`);
+             link.setAttribute('data-path', `/${dirPath}/${file}`);
+             
+             
+             listItem.appendChild(link);
+             fileList.appendChild(listItem);
+             console.log(file);
+            });
+           });
+        }
+
+
+        function handleLinkClick(event) {
+          event.preventDefault();
+          const link = event.target;
+          const href = link.getAttribute('href');
+          if(href){
+            const path = href.replace(/^file:\/\//, '');
+            const type = link.getAttribute('data-type');
+            console.log('Link clicked:', path, type);
+
+            if (type === 'file') {
+            console.log(path);
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
+            filePrint.appendChild(listItem);
+
+          } else if (type === 'directory') {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
+            filePrint.appendChild(listItem);
+            updateFileList(path);
+          }
+          
+          }else {
+            console.log('error:link does not have an href attribute');
+          }
+        }
+
+        function handleLinkDoubleClick(event) {
+          event.preventDefault();
+          const link = event.target;
+          const path = link.getAttribute('data-path');
+          const type = link.getAttribute('data-type');
+          if (type === 'directory') {
+            updateFileList(path);
+          }
+        }
+
+        function handleFolderSelection(event) {
+          const link = event.target;
+          const path = link.getAttribute('data-path');
+          const type = link.getAttribute('data-type');
+          if (type === 'directory') {
+            filePrint.querySelectorAll('a').forEach(link => link.classList.remove('selected'));
+            link.classList.add('selected');
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+          updateFileList('/');
+        });
+
+        ipcRenderer.on('changeDirectory', (event, arg) => {
+          updateFileList(arg);
+        });
+
+        fileList.addEventListener('click', handleLinkClick);
+        fileList.addEventListener('dblclick', handleLinkDoubleClick);
+        fileList.addEventListener('click', handleFolderSelection);
+        backButton.addEventListener('click', handleBackButtonClick);
+
+      </script>
+
+        
+    </div>
+      
       
     
 </body>

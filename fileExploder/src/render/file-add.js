@@ -1,6 +1,6 @@
 
 
-// 不知道为什么 mac运行不了这段代码
+
 const btn = this.document.querySelector('#btn')
 const { BrowserWindow } = require('@electron/remote')
 
@@ -22,6 +22,7 @@ window.onload = function(){
         }
     }
 }
+
 window.addEventListener('contextmenu',function(){
     alert(111)
 })
