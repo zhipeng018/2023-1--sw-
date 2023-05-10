@@ -1,12 +1,5 @@
 const simpleGit = require('simple-git/promise');
 
-class Git {
-constructor() {
-const simpleGit = require('simple-git');
-this.git = simpleGit();
-}
-
-async initRepo(path) {
 // 定义要操作的 Git 存储库的 URL
 const remote = 'https://github.com/SUPERHU0620/test_01.git';
 
