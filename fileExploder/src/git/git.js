@@ -1,4 +1,4 @@
-/*require('dotenv').config();
+const simpleGit = require('simple-git/promise');
 
 class Git {
 constructor() {
@@ -7,55 +7,57 @@ this.git = simpleGit();
 }
 
 async initRepo(path) {
-await this.git.init(path);
+// 定义要操作的 Git 存储库的 URL
+const remote = 'https://github.com/SUPERHU0620/test_01.git';
+
+// 存储文件路径的变量
+let filePath = '';
+
+// 克隆存储库
+async function clone() {
+  const git = simpleGit();
+  await git.clone(remote);
 }
 
-async connectToGitHub() {
-const { GITHUB_ACCESS_TOKEN } = process.env;
-
-
-await this.git.addConfig('user.name', 'your-username');
-await this.git.addConfig('user.email', 'your-email');
-await this.git.addConfig('user.password', `${GITHUB_ACCESS_TOKEN}`);
-await this.git.addConfig('credential.helper', 'store');
-}
-}
-
-async function test() {
-const git = new Git();
-const path = './test-repo';
-
-// 初始化本地 Git 仓库
-await git.initRepo(path);
-
-// 连接到 GitHub
-await git.connectToGitHub();
-
-console.log('Connected to GitHub!');
-// 在本地仓库中创建一个文件并提交更改
-const fs = require('fs');
-
-if (!fs.existsSync(path)) {
-  fs.mkdirSync(path);
+// 添加文件到 Git
+async function add() {
+  if (filePath) {
+    const git = simpleGit();
+    await git.add(filePath);
+  } else {
+    console.log('文件路径未设置');
+  }
 }
 
-fs.writeFileSync(`${path}/test.txt`, 'Hello World');
-await git.git.add('.');
-await git.git.commit('Initial commit');
-
-// 将本地更改推送到远程仓库
-await git.git.push('origin', 'main');
-
-
-// 检查远程仓库是否包含提交的更改
-const remoteCommits = await git.git.log(['origin/master']);
-if (remoteCommits.total === 1) {
-  console.log('Connected to GitHub and successfully pushed changes!');
-} else {
-  console.log('Failed to push changes to GitHub!');
+// 提交更改到 Git
+async function commit(message) {
+  const git = simpleGit();
+  await git.commit(message);
 }
 
+// 推送更改到远程 Git 存储库
+async function push() {
+  const git = simpleGit();
+  await git.push(['--force', remote, 'HEAD']);
 }
 
-test();
-*/
+// 获取 Git 存储库中的最新更改
+async function pull() {
+  const git = simpleGit();
+  await git.pull(remote, 'HEAD', { '--allow-unrelated-histories': null });
+}
+
+// 设置文件路径的函数
+function setFilePath(path) {
+  filePath = path;
+}
+
+// 导出方法，以便在其他 JavaScript 文件中使用
+module.exports = {
+  clone,
+  add,
+  commit,
+  push,
+  pull,
+  setFilePath,
+};

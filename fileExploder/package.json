@@ -21,7 +21,8 @@
   "dependencies": {
     "@electron/remote": "^2.0.9",
     "electron-squirrel-startup": "^1.0.0",
-    "nodejs": "^0.0.0"
+    "nodejs": "^0.0.0",
+    "simple-git": "^3.18.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",
