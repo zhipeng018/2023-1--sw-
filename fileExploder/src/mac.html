@@ -40,6 +40,38 @@
             </script>
           </li>
           <li><button id="delete">delete</button></li>
+          <li>
+            <button id="git">git</button>
+            <script id="git.js">
+              document.getElementById("git").addEventListener("click", function() {
+                const git = require('C:\\users\\x1223\\Documents\\GitHub\\2023-1--sw-\\fileExploder\\src\\git\\git.js');
+          
+                git.clone()
+                  .then(() => {
+                    console.log('克隆存储库成功');
+                    return git.add('file.txt');
+                  })
+                  .then(() => {
+                    console.log('添加文件成功');
+                    return git.commit('添加文件');
+                  })
+                  .then(() => {
+                    console.log('提交更改成功');
+                    return git.push();
+                  })
+                  .then(() => {
+                    console.log('推送更改成功');
+                    return git.pull();
+                  })
+                  .then(() => {
+                    console.log('拉取更改成功');
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              });
+            </script>
+          </li>
           <form action="">
               <div>
                 <label>
