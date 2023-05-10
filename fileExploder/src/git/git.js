@@ -1,4 +1,4 @@
-require('dotenv').config();
+/*require('dotenv').config();
 
 class Git {
 constructor() {
@@ -58,3 +58,4 @@ if (remoteCommits.total === 1) {
 }
 
 test();
+*/

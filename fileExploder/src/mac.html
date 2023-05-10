@@ -10,7 +10,7 @@
 <body>
     <div class = "header">
         <h1>
-          <img src="/Users/wangzhipeng/fileExploder/src/resources/logo.PNG" id = "logo" alt="logo" height="70" width="=180" >
+          <img src="C:\users\x1223\Documents\GitHub\2023-1--sw-\fileExploder\src\resources\logo.PNG" id = "logo" alt="logo" height="70" width="=180" >
           <button class="login" onclick="signin()"></button>
           <script>
             function signin(){
@@ -43,7 +43,7 @@
           <form action="">
               <div>
                 <label>
-                  <img src="/Users/wangzhipeng/fileExploder/src/resources/search.PNG" id= "search" alt="search" height="30" width="30">
+                  <img src="C:\users\x1223\Documents\GitHub\2023-1--sw-\fileExploder\src\resources\search.PNG" id= "search" alt="search" height="30" width="30">
                 </label>
                 <input type="text" name="filename" placeholder="Search">
               </div>    
@@ -77,7 +77,7 @@
         const backButton = document.getElementById('backButton');
         const path = require('path');
 
-        let currentDir = '/';
+        let currentDir = '\\';
 
         function updateFileList(dirPath) {
           
@@ -93,7 +93,7 @@
            files.forEach(file => {
              const listItem = document.createElement('li');
              const link = document.createElement('a');
-             const filePath = `${dirPath}/${file}`;
+             const filePath = `${dirPath}\\${file}`;
 
              fs.stat(filePath,(err,stats) => {
               if(err){
@@ -102,7 +102,7 @@
               }
               if(stats.isDirectory()){
                 link.setAttribute('data-type', 'directory');
-                link.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${file}`;
+                link.innerHTML = `<img src="C:\\users\\x1223\\Documents\\GitHub\\2023-1--sw-\\fileExploder\\src\\resources\\folder.PNG" width="50" height="50"><br>${file}`;
               }else{
                 link.setAttribute('data-type', 'file');
                 link.innerHTML = file;
@@ -132,12 +132,12 @@
             if (type === 'file') {
             console.log(path);
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
+            listItem.innerHTML = `<img src="C:\\users\\x1223\\Documents\\GitHub\\2023-1--sw-\\fileExploder\\src\\resources\\folder.PNG" width="50" height="50"><br>${path}`;
             filePrint.appendChild(listItem);
 
           } else if (type === 'directory') {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/Users/wangzhipeng/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
+            listItem.innerHTML = `<img src=".\\src\\resources\\folder.PNG" width="50" height="50"><br>${path}`;
             filePrint.appendChild(listItem);
             updateFileList(path);
           }
