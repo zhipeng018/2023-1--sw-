@@ -38,8 +38,26 @@ Detailed documentation: https://docs.github.com/zh/apps/oauth-apps/building-oaut
 - Mac OS (to be updated)
 
 ### Download method: 
-We have packaged the project, so simply download the exe file in the app folder.
+We have packaged the project, go to the fileExploder/dist, to find /fileexploder Setup 1.0.0 .exe to download.
 
+And you also can run the project by source code.
+
+
+### NOTE ###
+
+- if you want to download the app, it's just a demo app so the test repository is by decided, not yours. So the file when you commit you can't find on your own repository
+
+- if you want to run this project by the source code, you can change the repository in the /src/git/git.js. And with the different browser the resource maybe will lose, so you can change the img path to show the resource.
+
+
+### Bug Log ###
+
+We are not good at to build the application but we will fix the bug try our best.
+
+- add file button has no access
+- back button can't run on Windows Os
+- resource lose(with google bowser)
+- View version control can't show on the GUI
 
 
 
