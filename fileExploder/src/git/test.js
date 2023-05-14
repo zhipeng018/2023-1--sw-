@@ -1,4 +1,4 @@
-const git = require('./git.js');
+/*const git = require('./git.js');
 
 // 调用 clone 函数来克隆 Git 存储库
 git.clone()
@@ -28,3 +28,4 @@ git.clone()
   .catch((error) => {
     console.error(error);
   });
+*/
