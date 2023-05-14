@@ -1,6 +1,6 @@
 /*const git = require('./git.js');
 
-// 调用 clone 函数来克隆 Git 存储库
+// Call the clone function to clone the Git repository
 git.clone()
   .then(() => {
     console.log('克隆存储库成功');
@@ -28,4 +28,3 @@ git.clone()
   .catch((error) => {
     console.error(error);
   });
-*/

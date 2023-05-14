@@ -1,0 +1,14 @@
+appId: com.example.myapp
+productName: MyApp
+copyright: Copyright  My Company
+directories:
+  output: dist
+mac:
+  target: dmg
+  icon: icon.icns
+  category: Productivity
+win:
+  target: nsis
+  icon: icon.ico
+  publisherName: My Company
+  description: My description

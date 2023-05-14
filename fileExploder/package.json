@@ -10,7 +10,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "dev": "nodemon --exec electron ."
+    "dev": "nodemon --exec electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "keywords": [],
   "author": {
@@ -30,7 +32,8 @@
     "@electron-forge/maker-rpm": "^6.1.1",
     "@electron-forge/maker-squirrel": "^6.1.1",
     "@electron-forge/maker-zip": "^6.1.1",
-    "electron": "^24.3.0",
+    "electron": "^24.2.0",
+    "electron-builder": "^23.6.0",
     "electron-nightly": "^26.0.0-nightly.20230505"
   },
   "permissions": [

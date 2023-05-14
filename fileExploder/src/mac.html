@@ -48,23 +48,23 @@
           
                 git.clone()
                   .then(() => {
-                    console.log('克隆存储库成功');
+                    console.log('Repository cloned successfully');
                     return git.add('file.txt');
                   })
                   .then(() => {
-                    console.log('添加文件成功');
-                    return git.commit('添加文件');
+                    console.log('File added successfully');
+                    return git.commit('Add file');
                   })
                   .then(() => {
-                    console.log('提交更改成功');
+                    console.log('Changes committed successfully');
                     return git.push();
                   })
                   .then(() => {
-                    console.log('推送更改成功');
+                    console.log('Changes pushed successfully');
                     return git.pull();
                   })
                   .then(() => {
-                    console.log('拉取更改成功');
+                    console.log('Changes pulled successfully');
                   })
                   .catch((error) => {
                     console.error(error);
