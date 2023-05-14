@@ -45,7 +45,7 @@ And you also can run the project by source code.
 
 ### NOTE ###
 
-- if you want to download the app, it's just a demo app so the test repository is by decided, not yours. So the file when you commit you can't find on your own repository
+- if you want to download the app, it's just a demo app so the test repository was decided, not yours. So the file when you commit you can't find on your own repository
 
 - if you want to run this project by the source code, you can change the repository in the /src/git/git.js. And with the different browser the resource maybe will lose, so you can change the img path to show the resource.
 
