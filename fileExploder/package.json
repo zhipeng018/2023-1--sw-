@@ -35,5 +35,10 @@
   },
   "permissions": [
     "*"
-  ]
+  ],
+
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --mac --win --linux"
+  }
 }
