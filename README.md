@@ -9,7 +9,7 @@ This is for the Open Source SW Project class
 
 
 
-## ***this project provides a convenient way to upload computer files to a remote repository on Github.***
+## ***This project provides a convenient way to upload computer files to a remote repository on Github.***
 
 - **This project is an original creation with great potential for improvement.**
 - **The application's functionality is not yet perfect, so it is important to carefully review the relevant information and logs when learning.**
