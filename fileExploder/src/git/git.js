@@ -54,3 +54,31 @@ push,
 pull,
 setFilePath,
 };
+
+document.getElementById("git").addEventListener("click", function() {
+    const git = require('\\2023-1--sw-\\fileExploder\\src\\git\\git.js');
+
+    git.clone()
+      .then(() => {
+        console.log('Repository cloned successfully');
+        return git.add('file.txt');
+      })
+      .then(() => {
+        console.log('File added successfully');
+        return git.commit('Add file');
+      })
+      .then(() => {
+        console.log('Changes committed successfully');
+        return git.push();
+      })
+      .then(() => {
+        console.log('Changes pushed successfully');
+        return git.pull();
+      })
+      .then(() => {
+        console.log('Changes pulled successfully');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });

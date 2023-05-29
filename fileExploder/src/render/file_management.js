@@ -1,67 +1,120 @@
+const { ipcRenderer } = require('electron');
 const fs = require('fs');
 
-// 扫描指定目录下的所有文件和子目录
-function scanDir(path) {
-  const files = fs.readdirSync(path, { withFileTypes: true });
-  files.forEach(file => {
-    if (file.isDirectory()) {
-      scanDir(`${path}/${file.name}`);
-    } else {
-      // 处理文件
+const fileList = document.getElementById('fileList');
+const filePrint = document.getElementById('filePrint');
+const backButton = document.getElementById('backButton');
+const path = require('path');
+
+let currentDir = '\\';
+
+function updateFileList(dirPath) {
+  currentDir = dirPath;
+  fs.readdir(dirPath, (err, files) => {
+    if (err) {
+      console.error(err);
+      return;
     }
+  
+    fileList.innerHTML = '';
+    console.log('Files in directory:', dirPath);
+    files.forEach(file => {
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+      const filePath = `${dirPath}/${file}`;  // Use '/' instead of '\\'
+
+      fs.stat(filePath,(err,stats) => {
+        if(err){
+          console.error(err);
+          return;
+        }
+        if(stats.isDirectory()){
+          link.setAttribute('data-type', 'directory');
+          link.innerHTML = `<img src="./resources/folder.PNG" width="50" height="50"><br>${file}`;
+        }else{
+          link.setAttribute('data-type', 'file');
+          link.innerHTML = file;
+        }
+      })
+      link.setAttribute('href', `file://${filePath}`);
+      link.setAttribute('data-path', `/${filePath}`);
+      listItem.appendChild(link);
+      fileList.appendChild(listItem);
+    });
   });
 }
 
-// 获取文件信息并在界面上显示
-function displayFile(path) {
-  const stats = fs.statSync(path);
-  const fileName = path.split('/').pop(); // 获取文件名
-  const fileSize = stats.size; // 获取文件大小
-  const fileCreated = stats.birthtime; // 获取文件创建时间
-  const fileModified = stats.mtime; // 获取文件修改时间
 
-  const fileDiv = document.createElement('div');
-  fileDiv.innerHTML = `${fileName} (${fileSize} bytes, 创建于 ${fileCreated}, 修改于 ${fileModified})`;
-  document.getElementById('fileList').appendChild(fileDiv);
+function handleLinkClick(event) {
+  event.preventDefault();
+  const link = event.target;
+  const path = link.getAttribute('data-path');  // Use 'data-path' instead of 'href'
+  const type = link.getAttribute('data-type');
+  console.log('Link clicked:', path, type);
+
+  if (type === 'file') {
+    console.log(path);
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<img src="./resources/file.png" width="50" height="50"><br>${path}`;
+    filePrint.appendChild(listItem);
+
+  } else if (type === 'directory') {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<img src="./resources/folder.PNG" width="50" height="50"><br>${path}`;
+    filePrint.appendChild(listItem);
+    updateFileList(path);
+  }
 }
 
-// 扫描文件系统并在界面上显示所有文件
-scanDir('/');
+function handleLinkDoubleClick(event) {
+  event.preventDefault();
+  const link = event.target;
+  const path = link.getAttribute('data-path');  // Use 'data-path' instead of 'href'
+  const type = link.getAttribute('data-type');
+  if (type === 'directory') {
+    updateFileList(path);
+  }
+}
 
-// 新建文件
-// document.getElementById('add').addEventListener('click', function(event) {
-//     event.preventDefault(); // 防止表单提交
-//     const fileName = document.getElementById('newFileName').value;
-//     fs.writeFileSync(fileName, ''); // 创建一个空文件
-//     displayFile(fileName); // 在界面上显示新文件
-//   });
+function handleFolderSelection(event) {
+  const link = event.target;
+  const path = link.getAttribute('data-path');
+  const type = link.getAttribute('data-type');
+  if (type === 'directory') {
+    filePrint.querySelectorAll('a').forEach(link => link.classList.remove('selected'));
+    link.classList.add('selected');
+  }
+}
+
+function handleBackButtonClick() {
+  let currentPath;
+  const selectedLink = fileList.querySelector('a.selected');
+
+  // 如果没有选中的链接，那么我们使用当前目录作为默认值。
+  if (selectedLink) {
+    currentPath = selectedLink.getAttribute('data-path');
+  } else {
+    currentPath = currentDir;
+  }
   
-//   // 删除文件
-//   function deleteFile(path) {
-//     fs.unlinkSync(path); // 删除文件
-//     document.getElementById('fileList').removeChild(document.getElementById(path)); // 从界面上移除文件
-//   }
+  const parentPath = path.dirname(currentPath);
   
-// 创建文件
-function createFile(fileName, content) {
-    const fs = require('fs');
-    fs.writeFile(fileName, content, function(err) {
-    if (err) {
-    console.error(err);
-    return;
-    }
-    console.log("${fileName} created successfully.");
-    });
-    }
-    
-    // 删除文件
-    function deleteFile(fileName) {
-    const fs = require('fs');
-    fs.unlink(fileName, function(err) {
-    if (err) {
-    console.error(err);
-    return;
-    }
-    console.log("${fileName} deleted successfully.");
-    });
-    }
+  // '/' 在Windows系统中并不是根路径，应该更改为 'C:\\' 或是硬盘的具体路径。
+  if(parentPath !== 'C:\\'){
+    updateFileList(parentPath);
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateFileList('\\');
+});
+
+ipcRenderer.on('changeDirectory', (event, arg) => {
+  updateFileList(arg);
+});
+
+fileList.addEventListener('click', handleLinkClick);
+fileList.addEventListener('dblclick', handleLinkDoubleClick);
+fileList.addEventListener('click', handleFolderSelection);
+backButton.addEventListener('click', handleBackButtonClick);
