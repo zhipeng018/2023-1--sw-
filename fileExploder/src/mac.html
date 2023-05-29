@@ -75,7 +75,7 @@
           <form action="">
               <div>
                 <label>
-                  <img src="/2023-1--sw/fileExploder/src/resources/search.PNG" id= "search" alt="search" height="30" width="30">
+                  <img src="./resources/search.PNG" id= "search" alt="search" height="30" width="30">
                 </label>
                 <input type="text" name="filename" placeholder="Search">
               </div>    
@@ -134,7 +134,7 @@
               }
               if(stats.isDirectory()){
                 link.setAttribute('data-type', 'directory');
-                link.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${file}`;
+                link.innerHTML = `<img src="./resources/folder.PNG" width="50" height="50"><br>${file}`;
               }else{
                 link.setAttribute('data-type', 'file');
                 link.innerHTML = file;
@@ -164,13 +164,12 @@
             if (type === 'file') {
             console.log(path);
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/file
-            ." width="50" height="50"><br>${path}`;
+            listItem.innerHTML = `<img src="./resources/file.png" width="50" height="50"><br>${path}`;
             filePrint.appendChild(listItem);
 
           } else if (type === 'directory') {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
+            listItem.innerHTML = `<img src="./resources/folder.PNG" width="50" height="50"><br>${path}`;
             filePrint.appendChild(listItem);
             updateFileList(path);
           }
