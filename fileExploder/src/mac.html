@@ -42,35 +42,8 @@
           <li><button id="delete">delete</button></li>
           <li>
             <button id="git">git</button>
-            <script>
-              document.getElementById("git").addEventListener("click", function() {
-              const git = require('\\2023-1--sw-\\fileExploder\\src\\git\\git.js');
+            <script src="./git/gitOperations.js"></script>
 
-              git.clone()
-                .then(() => {
-                  console.log('Repository cloned successfully');
-                  return git.add('file.txt');
-                })
-                .then(() => {
-                  console.log('File added successfully');
-                  return git.commit('Add file');
-                })
-                .then(() => {
-                  console.log('Changes committed successfully');
-                  return git.push();
-                })
-                .then(() => {
-                  console.log('Changes pushed successfully');
-                  return git.pull();
-                })
-                .then(() => {
-                  console.log('Changes pulled successfully');
-                })
-                .catch((error) => {
-                  console.error(error);
-                });
-              });
-            </script>
           </li>
           <form action="">
               <div>
@@ -82,6 +55,7 @@
           </form>
         </ul>
       </div>
+      <p id="currentPath"></p>
       <div class="sidebar">
         <ul id="fileList">
 
@@ -101,6 +75,13 @@
       </div>
 
       <script src="./render/file_management.js"></script>
+      <script>
+        const gitOperations = require('./git/git_operations.js');
+    
+        document.getElementById('git').addEventListener('click', function() {
+          gitOperations.initGit();
+        });
+      </script>
     </div>
       
       

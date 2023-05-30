@@ -10,6 +10,7 @@ let currentDir = '\\';
 
 function updateFileList(dirPath) {
   currentDir = dirPath;
+  document.getElementById('currentPath').textContent = dirPath;
   fs.readdir(dirPath, (err, files) => {
     if (err) {
       console.error(err);
