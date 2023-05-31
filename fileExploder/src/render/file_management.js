@@ -1,12 +1,26 @@
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
 
+const git = require('simple-git');
 const fileList = document.getElementById('fileList');
 const filePrint = document.getElementById('filePrint');
 const backButton = document.getElementById('backButton');
 const path = require('path');
 
 let currentDir = '\\';
+
+function checkIsRepo(dirPath) {
+  const normalizedDirPath = path.normalize(dirPath);
+  git(normalizedDirPath).checkIsRepo()
+      .then(isRepo => {
+          if (isRepo) {
+              console.log('This directory is a Git repository.');
+          } else {
+              console.log('This directory is not a Git repository.');
+          }
+      })
+      .catch((err) => console.error('Failed to check if the directory is a repository:', err));
+}
 
 function updateFileList(dirPath) {
   currentDir = dirPath;
@@ -42,6 +56,7 @@ function updateFileList(dirPath) {
       listItem.appendChild(link);
       fileList.appendChild(listItem);
     });
+    checkIsRepo(dirPath);
   });
 }
 
