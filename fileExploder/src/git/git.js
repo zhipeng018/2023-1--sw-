@@ -53,9 +53,7 @@ commit,
 push,
 pull,
 setFilePath,
-// <<<<<<< Updated upstream
-// };
-// =======
-// };
 
-// >>>>>>> Stashed changes
+};
+
+>>>>>>> Stashed changes
