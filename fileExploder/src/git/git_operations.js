@@ -17,7 +17,6 @@ function initGit(dirPath) {
 }
 
 
-
 // commit 按钮脚本
 function commitChanges(dirPath, message) {
   const normalizedDirPath = path.normalize(dirPath);
@@ -56,33 +55,7 @@ function fetchRepo(dirPath) {
     .catch((err) => console.error('Failed to fetch changes:', err));
 }
 
-document.getElementById('git').addEventListener('click', function() {
-  const normalizedCurrentPath = getCurrentPath();
-  initGit(normalizedCurrentPath);
-});
 
-document.getElementById('commit').addEventListener('click', function() {
-  const normalizedCurrentPath = getCurrentPath();
-  const commitMessage = "Commit message"; // TODO: 获取真实的提交信息
-  commitChanges(normalizedCurrentPath, commitMessage);
-});
-
-document.getElementById('push').addEventListener('click', function() {
-  const normalizedCurrentPath = getCurrentPath();
-  pushChanges(normalizedCurrentPath);
-});
-
-document.getElementById('pull').addEventListener('click', function() {
-  const normalizedCurrentPath = getCurrentPath();
-  pullRepo(normalizedCurrentPath);
-});
-
-document.getElementById('fetch').addEventListener('click', function() {
-  const normalizedCurrentPath = getCurrentPath();
-  fetchRepo(normalizedCurrentPath);
-});
-
-  
 module.exports = {
   initGit,
   commitChanges,
