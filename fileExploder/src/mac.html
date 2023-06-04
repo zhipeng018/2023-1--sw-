@@ -44,8 +44,6 @@
         <ul class="git"> 
           <li>
             <button id="git">git</button>
-            <script src="./git/gitOperations.js"></script>
-
           </li>
           <li>
             <button id="commit">commit</button>
@@ -90,16 +88,7 @@
       </div>
 
       <script src="./render/file_management.js"></script>
-      <script>
-        const gitOperations = require('./git/git_operations.js');
-    
-        document.getElementById('git').addEventListener('click', function() {
-          gitOperations.initGit();
-        });
-      </script>
-    </div>
-      
-      
-    
+      <script src="./git/git_operations.js"></script>
+    </div>   
 </body>
 </html>

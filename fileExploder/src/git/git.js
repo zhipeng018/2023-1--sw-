@@ -1,3 +1,4 @@
+/*
 const simpleGit = require('simple-git/promise');
 
 // Define the URL of the Git repository to operate on
@@ -56,3 +57,4 @@ setFilePath,
 
 };
 
+*/
