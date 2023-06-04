@@ -10,7 +10,7 @@
 <body>
     <div class = "header">
         <h1>
-          <img src="/2023-1--sw/fileExploder/src/resources/logo.PNG" id = "logo" alt="logo" height="70" width="=180" >
+          <img src="./resources/logo.PNG" id = "logo" alt="logo" height="70" width="=180" >
           <button class="login" onclick="signin()"></button>
           <script>
             function signin(){
@@ -36,7 +36,7 @@
           </li>
           <li>
             <button id="createFile">add</button>
-            <script id="file-add.js">
+            <script src="file-add.js">
             </script>
           </li>
           <li><button id="delete">delete</button></li>
@@ -44,35 +44,8 @@
         <ul class="git"> 
           <li>
             <button id="git">git</button>
-            <script id="git.js">
-              document.getElementById("git").addEventListener("click", function() {
-                const git = require('\\2023-1--sw-\\fileExploder\\src\\git\\git.js');
-          
-                git.clone()
-                  .then(() => {
-                    console.log('Repository cloned successfully');
-                    return git.add('file.txt');
-                  })
-                  .then(() => {
-                    console.log('File added successfully');
-                    return git.commit('Add file');
-                  })
-                  .then(() => {
-                    console.log('Changes committed successfully');
-                    return git.push();
-                  })
-                  .then(() => {
-                    console.log('Changes pushed successfully');
-                    return git.pull();
-                  })
-                  .then(() => {
-                    console.log('Changes pulled successfully');
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              });
-            </script>
+            <script src="./git/gitOperations.js"></script>
+
           </li>
           <li>
             <button id="commit">commit</button>
@@ -87,8 +60,17 @@
             <button id="fetch">fetch</button>
           </li>
 
+          <form action="">
+              <div>
+                <label>
+                  <img src="./resources/search.PNG" id= "search" alt="search" height="30" width="30">
+                </label>
+                <input type="text" name="filename" placeholder="Search">
+              </div>    
+          </form>
         </ul>
       </div>
+      <p id="currentPath"></p>
       <div class="sidebar">
         <ul id="fileList">
 
@@ -107,122 +89,14 @@
             
       </div>
 
+      <script src="./render/file_management.js"></script>
       <script>
-        const { ipcRenderer } = require('electron');
-        const fs = require('fs');
-
-        const fileList = document.getElementById('fileList');
-        const filePrint = document.getElementById('filePrint');
-        const backButton = document.getElementById('backButton');
-        const path = require('path');
-
-        let currentDir = '\\';
-
-        function updateFileList(dirPath) {
-          
-          let currentDir = dirPath;
-          fs.readdir(dirPath, (err, files) => {
-           if (err) {
-             console.error(err);
-             return;
-           }
-          
-           fileList.innerHTML = '';
-           console.log('Files in directory:', dirPath);
-           files.forEach(file => {
-             const listItem = document.createElement('li');
-             const link = document.createElement('a');
-             const filePath = `${dirPath}\\${file}`;
-
-             fs.stat(filePath,(err,stats) => {
-              if(err){
-                console.error(err);
-                return;
-              }
-              if(stats.isDirectory()){
-                link.setAttribute('data-type', 'directory');
-                link.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${file}`;
-              }else{
-                link.setAttribute('data-type', 'file');
-                link.innerHTML = file;
-              }
-             })
-             link.setAttribute('href', `file://${dirPath}/${file}`);
-             link.setAttribute('data-path', `/${dirPath}/${file}`);
-             
-             
-             listItem.appendChild(link);
-             fileList.appendChild(listItem);
-             console.log(file);
-            });
-           });
-        }
-
-
-        function handleLinkClick(event) {
-          event.preventDefault();
-          const link = event.target;
-          const href = link.getAttribute('href');
-          if(href){
-            const path = href.replace(/^file:\/\//, '');
-            const type = link.getAttribute('data-type');
-            console.log('Link clicked:', path, type);
-
-            if (type === 'file') {
-            console.log(path);
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/file
-            ." width="50" height="50"><br>${path}`;
-            filePrint.appendChild(listItem);
-
-          } else if (type === 'directory') {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<img src="/2023-1--sw/fileExploder/src/resources/folder.PNG" width="50" height="50"><br>${path}`;
-            filePrint.appendChild(listItem);
-            updateFileList(path);
-          }
-          
-          }else {
-            console.log('error:link does not have an href attribute');
-          }
-        }
-
-        function handleLinkDoubleClick(event) {
-          event.preventDefault();
-          const link = event.target;
-          const path = link.getAttribute('data-path');
-          const type = link.getAttribute('data-type');
-          if (type === 'directory') {
-            updateFileList(path);
-          }
-        }
-
-        function handleFolderSelection(event) {
-          const link = event.target;
-          const path = link.getAttribute('data-path');
-          const type = link.getAttribute('data-type');
-          if (type === 'directory') {
-            filePrint.querySelectorAll('a').forEach(link => link.classList.remove('selected'));
-            link.classList.add('selected');
-          }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-          updateFileList('\\');
+        const gitOperations = require('./git/git_operations.js');
+    
+        document.getElementById('git').addEventListener('click', function() {
+          gitOperations.initGit();
         });
-
-        ipcRenderer.on('changeDirectory', (event, arg) => {
-          updateFileList(arg);
-        });
-
-        fileList.addEventListener('click', handleLinkClick);
-        fileList.addEventListener('dblclick', handleLinkDoubleClick);
-        fileList.addEventListener('click', handleFolderSelection);
-        backButton.addEventListener('click', handleBackButtonClick);
-
       </script>
-
-        
     </div>
       
       
