@@ -135,7 +135,7 @@
                 const fragment = document.createDocumentFragment();
             
                 log.all.forEach(commit => {
-                  const listItem = document.createElement('li');
+                  const listItem = document.createElement('p');
                   listItem.textContent = `${commit.hash}: ${commit.message}`;
             
                   // 将新的列表项添加到 fragment 中

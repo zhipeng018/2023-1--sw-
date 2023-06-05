@@ -198,11 +198,10 @@
     }
 
     #history{
-      display:flex;
       flex-wrap: wrap;
       justify-content: flex-start;
       min-width: 150px;
-      height: 3000%;
+      height: 15000%;
       background-color: #f5f5f5;
       border-right: 1px solid #ccc;
       border: 1px solid #ddd;
@@ -216,4 +215,11 @@
       border-right: 1px solid #ccc;
       border: 1px solid #ddd;
       margin: 0%;
+
+      
+    }
+
+    #history p{
+      height:50px;
+      
     }
