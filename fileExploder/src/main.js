@@ -1,18 +1,17 @@
 var electron = require('electron')
 var app = electron.app
 var BrowserWindow = electron.BrowserWindow
-var BroserView = electron.BrowserView
-//var globalShortcut = electron.globalShortcut
+var BrowserView = electron.BrowserView
 
-const path = require('path')
+const path = require('path');
 
 var mainWindow = null
 
-app.on('ready',function(){
+app.on('ready', function() {
     const mainWindow = new BrowserWindow({
-        height:500,
-        width:800,
-        webPreferences:{
+        height: 500,
+        width: 800,
+        webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
@@ -20,21 +19,22 @@ app.on('ready',function(){
     });
 
     require('@electron/remote/main').initialize()
-    //require("@electron/remote/main").enable(mainWindow.webContents)
-    //require('./main/menu')
-    //remote.enable(mainWIn.webContents)
     mainWindow.loadFile(path.resolve(__dirname, 'mac.html'))
     mainWindow.webContents.openDevTools()
-    //mainWindow.openDevTools()
     mainWindow.on('closed', () => {
         mainWindow = null
     })
-})
 
-app.on('will-quit', () => {
-    // Unregister a shortcut.
-    globalShortcut.unregister('CommandOrControl+Y')
+    const Octokit = require('@octokit/rest');
+    const octokit = new Octokit({
+        auth: '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',
+    });
 
-    // Unregister all shortcuts.
-    globalShortcut.unregisterAll()
+    app.on('will-quit', () => {
+        // Unregister a shortcut.
+        globalShortcut.unregister('CommandOrControl+Y')
+
+        // Unregister all shortcuts.
+        globalShortcut.unregisterAll()
+    })
 })

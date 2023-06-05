@@ -72,12 +72,12 @@ function handleLinkClick(event) {
     console.log(path);
     const listItem = document.createElement('li');
     listItem.innerHTML = `<img src="./resources/file.png" width="50" height="50"><br>${path}`;
-    filePrint.appendChild(listItem);
+    fileList.appendChild(listItem);
 
   } else if (type === 'directory') {
     const listItem = document.createElement('li');
     listItem.innerHTML = `<img src="./resources/folder.PNG" width="50" height="50"><br>${path}`;
-    filePrint.appendChild(listItem);
+    fileList.appendChild(listItem);
     updateFileList(path);
   }
 }

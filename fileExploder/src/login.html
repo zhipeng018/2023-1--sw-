@@ -24,6 +24,20 @@
                     
                     </div>
                 <button id = "loginbtn" >Log In</button>
+                <script>
+                    async function getRepository(owner, repo) {
+                      try {
+                        const response = await octokit.repos.get({
+                          owner: zhipeng018,
+                          repo: iTshirt
+                        });
+                        return response.data;
+                        } catch (error) {
+                            console.error('Error:', error.message);
+                            throw error;
+                           }
+                         }
+                </script>
             </form>
             
         </div>
