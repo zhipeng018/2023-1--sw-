@@ -19,13 +19,15 @@ function initGit(dirPath) {
 
 // commit 按钮脚本
 function commitChanges(dirPath, message) {
-  const normalizedDirPath = path.normalize(dirPath);
-  console.log(`Adding and committing changes in: ${normalizedDirPath}`);
-  git(normalizedDirPath)
-    .add('.')
-    .then(() => git(normalizedDirPath).commit(message))
-    .then(() => console.log('Changes added and committed successfully.'))
-    .catch((err) => console.error('Failed to add and commit changes:', err));
+  if (message !== null) {
+    const normalizedDirPath = path.normalize(dirPath);
+    console.log(`Adding and committing changes in: ${normalizedDirPath}`);
+    git(normalizedDirPath)
+      .add('.')
+      .then(() => git(normalizedDirPath).commit(message))
+      .then(() => console.log('Changes added and committed successfully.'))
+      .catch((err) => console.error('Failed to add and commit changes:', err));
+  }
 }
 
 // push 按钮脚本
@@ -55,11 +57,17 @@ function fetchRepo(dirPath) {
     .catch((err) => console.error('Failed to fetch changes:', err));
 }
 
+function getLog(dirPath) {
+  const normalizedDirPath = path.normalize(dirPath);
+  return git(normalizedDirPath).log();
+}
+
 
 module.exports = {
   initGit,
   commitChanges,
   pushChanges,
   pullRepo,
-  fetchRepo
+  fetchRepo,
+  getLog
 };
