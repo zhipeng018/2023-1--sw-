@@ -83,6 +83,7 @@
     
   }
   
+
   .file {
     margin-right: auto;
     margin: 0;
@@ -194,4 +195,25 @@
     #file_print li img {
       width: 30px; /* 替换成您希望的宽度 */
       height: 30px; /* 替换成您希望的高度 */
+    }
+
+    #history{
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      min-width: 150px;
+      height: 3000%;
+      background-color: #f5f5f5;
+      border-right: 1px solid #ccc;
+      border: 1px solid #ddd;
+      margin: 0%;
+    }
+
+    #history ul{
+      min-width: 150px;
+      height: 1500%;
+      background-color: #f5f5f5;
+      border-right: 1px solid #ccc;
+      border: 1px solid #ddd;
+      margin: 0%;
     }
