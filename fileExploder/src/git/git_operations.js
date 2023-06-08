@@ -72,12 +72,12 @@ function createBranch(dirPath) {
       .catch((err) => console.error('Failed to create branch:', err));
 }
 
-// 切换分支
+//得到所有分支信息
 async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   return git(normalizedDirPath).branch();
 }
-
+// 切换分支
 async function switchBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
   const isRepo = await git(normalizedDirPath).checkIsRepo();
@@ -91,6 +91,8 @@ async function switchBranch(dirPath, branchName) {
 }
 
 
+
+
 module.exports = {
   initGit,
   commitChanges,
@@ -99,5 +101,6 @@ module.exports = {
   fetchRepo,
   getLog,
   createBranch,
-  switchBranch
+  switchBranch,
+  getBranches
 };

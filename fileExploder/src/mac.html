@@ -134,6 +134,16 @@
               });
             </script>
           </li>
+          <li>
+            <button id="branches">Branches</button>
+            <script>
+            document.getElementById('branches').addEventListener('click', async function() {
+            const normalizedCurrentPath = getCurrentPath();
+            const branches = await gitOperations.getBranches(normalizedCurrentPath);
+            console.log(branches);
+            });
+            </script>  
+          </li>
         </ul>
       </div>
       <p id="currentPath"></p>
