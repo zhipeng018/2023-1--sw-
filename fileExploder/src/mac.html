@@ -50,6 +50,16 @@
               gitOperations.initGit(normalizedCurrentPath);
             });
             </script>
+          
+          <li>
+            <button id="log">Log</button>
+            <script>
+              document.getElementById('log').addEventListener('click', async function() {
+                const normalizedCurrentPath = getCurrentPath();
+                await updateHistory(normalizedCurrentPath);
+              });
+            </script>
+          </li>
             
           </li>
           <li>
