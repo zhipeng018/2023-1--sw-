@@ -56,7 +56,12 @@
             <script>
               document.getElementById('log').addEventListener('click', async function() {
                 const normalizedCurrentPath = getCurrentPath();
-                await updateHistory(normalizedCurrentPath);
+                const isRepo = await git(normalizedCurrentPath).checkIsRepo();
+                if (isRepo) {
+                  await updateHistory(normalizedCurrentPath);
+                } else {
+                  alert('The current folder is not a Git repository.');
+                }
               });
             </script>
           </li>
