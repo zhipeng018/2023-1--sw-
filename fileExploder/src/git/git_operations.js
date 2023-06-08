@@ -56,10 +56,38 @@ function fetchRepo(dirPath) {
     .then(() => console.log('Changes fetched successfully.'))
     .catch((err) => console.error('Failed to fetch changes:', err));
 }
-
+//log 按钮脚本
 function getLog(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   return git(normalizedDirPath).log();
+}
+// 创建分支
+let branchCounter = 0;
+function createBranch(dirPath) {
+  branchCounter++;
+  const branchName = "branch" + branchCounter;
+  const normalizedDirPath = path.normalize(dirPath);
+  git(normalizedDirPath).branch([branchName])
+      .then(() => console.log(`Branch '${branchName}' created successfully.`))
+      .catch((err) => console.error('Failed to create branch:', err));
+}
+
+// 切换分支
+async function getBranches(dirPath) {
+  const normalizedDirPath = path.normalize(dirPath);
+  return git(normalizedDirPath).branch();
+}
+
+async function switchBranch(dirPath, branchName) {
+  const normalizedDirPath = path.normalize(dirPath);
+  const isRepo = await git(normalizedDirPath).checkIsRepo();
+  if (!isRepo) {
+      alert('The current directory is not a Git repository.');
+  } else {
+      git(normalizedDirPath).checkout(branchName)
+          .then(() => console.log(`Switched to branch '${branchName}' successfully.`))
+          .catch((err) => console.error('Failed to switch branch:', err));
+  }
 }
 
 
@@ -69,5 +97,7 @@ module.exports = {
   pushChanges,
   pullRepo,
   fetchRepo,
-  getLog
+  getLog,
+  createBranch,
+  switchBranch
 };
