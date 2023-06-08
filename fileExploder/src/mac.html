@@ -56,17 +56,13 @@
             <button id="commit">commit</button>
             <script>
               document.getElementById('commit').addEventListener('click', async function() {
-                const { ipcRenderer } = require('electron');
                 const normalizedCurrentPath = getCurrentPath();
-                ipcRenderer.send('prompt', {
-                title: 'Commit Message',
-                label: 'Enter your commit message:',
-                value: 'Default commit message',
-                path: normalizedCurrentPath
-                });
+                const fixedCommitMessage = 'My fixed commit message'; // 添加固定的提交消息
+                gitOperations.commitChanges(normalizedCurrentPath, fixedCommitMessage); // 使用固定的提交消息
                 await updateHistory();
               });
             </script>
+            
           </li>
           <li>
             <button id ="push">push</button>
