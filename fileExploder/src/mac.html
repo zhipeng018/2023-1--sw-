@@ -67,7 +67,7 @@
             <script>
               document.getElementById('commit').addEventListener('click', async function() {
                 const normalizedCurrentPath = getCurrentPath();
-                const fixedCommitMessage = 'My fixed commit message'; // 添加固定的提交消息
+                const fixedCommitMessage = 'My fixed commit message'; // 固定的提交消息
                 gitOperations.commitChanges(normalizedCurrentPath, fixedCommitMessage); // 使用固定的提交消息
                 await updateHistory();
               });
