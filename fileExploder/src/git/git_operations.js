@@ -67,26 +67,52 @@ function createBranch(dirPath) {
   branchCounter++;
   const branchName = "branch" + branchCounter;
   const normalizedDirPath = path.normalize(dirPath);
-  git(normalizedDirPath).branch([branchName])
-      .then(() => console.log(`Branch '${branchName}' created successfully.`))
-      .catch((err) => console.error('Failed to create branch:', err));
+  git(normalizedDirPath)
+    .branch([branchName])
+    .then(() => {
+      console.log(`Branch '${branchName}' created successfully.`);
+      const ul = document.querySelector('.fileprint');
+      const li = document.createElement('li');
+      li.textContent = `Branch '${branchName}' created successfully.`;
+      li.addEventListener('click', () => {
+        switchBranch(dirPath, branchName);
+      });
+      ul.appendChild(li);
+    })
+    .catch((err) => console.error('Failed to create branch:', err));
 }
 
-//得到所有分支信息
 async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
-  return git(normalizedDirPath).branch();
+  const branches = await git(normalizedDirPath).branch();
+  const ul = document.querySelector('.fileprint');
+  ul.innerHTML = ''; // 清空之前的内容
+  branches.all.forEach((branch) => {
+    const li = document.createElement('li');
+    li.textContent = branch;
+    li.addEventListener('click', () => {
+      switchBranch(dirPath, branch);
+    });
+    ul.appendChild(li);
+  });
 }
-// 切换分支
+
 async function switchBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
   const isRepo = await git(normalizedDirPath).checkIsRepo();
   if (!isRepo) {
-      alert('The current directory is not a Git repository.');
+    alert('The current directory is not a Git repository.');
   } else {
-      git(normalizedDirPath).checkout(branchName)
-          .then(() => console.log(`Switched to branch '${branchName}' successfully.`))
-          .catch((err) => console.error('Failed to switch branch:', err));
+    git(normalizedDirPath)
+      .checkout(branchName)
+      .then(() => {
+        console.log(`Switched to branch '${branchName}' successfully.`);
+        const ul = document.querySelector('.fileprint');
+        const li = document.createElement('li');
+        li.textContent = `Switched to branch '${branchName}' successfully.`;
+        ul.appendChild(li);
+      })
+      .catch((err) => console.error('Failed to switch branch:', err));
   }
 }
 

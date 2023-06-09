@@ -110,7 +110,7 @@
               </script>
           </li>
           <li>
-            <button id="createBranch">Create Branch</button>
+            <button id="createBranch">CreateBranch</button>
             <script>
               document.getElementById('createBranch').addEventListener('click', function() {
               const normalizedCurrentPath = getCurrentPath();
@@ -119,18 +119,12 @@
             </script>
           </li>
           <li>
-            <button id="switchBranch">Switch Branch</button>
+            <button id="switchBranch">SwitchBranch</button>
             <script>
               document.getElementById('switchBranch').addEventListener('click', async function() {
               const normalizedCurrentPath = getCurrentPath();
               const branches = await gitOperations.getBranches(normalizedCurrentPath);
               const branchNames = branches.all;
-        
-              // 打开一个对话框让用户选择分支
-              const selectedBranch = await window.electron.ipcRenderer.invoke('showSelectBranchDialog', branchNames);
-              if (selectedBranch !== null) {
-                gitOperations.switchBranch(normalizedCurrentPath, selectedBranch);
-              }
               });
             </script>
           </li>
