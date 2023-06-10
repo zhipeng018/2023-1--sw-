@@ -61,25 +61,23 @@ function getLog(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   return git(normalizedDirPath).log();
 }
-// 创建分支
-let branchCounter = 0;
-function createBranch(dirPath) {
-  branchCounter++;
-  const branchName = "branch" + branchCounter;
+/// 创建分支
+async function createBranch(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
-  git(normalizedDirPath)
-    .branch([branchName])
-    .then(() => {
-      console.log(`Branch '${branchName}' created successfully.`);
-      const ul = document.querySelector('#fileprint');
-      const li = document.createElement('li');
-      li.textContent = `Branch '${branchName}' created successfully.`;
-      li.addEventListener('click', () => {
-        switchBranch(dirPath, branchName);
-      });
-      ul.appendChild(li);
-    })
-    .catch((err) => console.error('Failed to create branch:', err));
+  const branchName = "branch" + Date.now(); // 使用当前时间戳来创建唯一的分支名
+  try {
+    await git(normalizedDirPath).branch([branchName]);
+    console.log(`Branch '${branchName}' created successfully.`);
+    const ul = document.querySelector('.fileprint');
+    const li = document.createElement('li');
+    li.textContent = `Branch '${branchName}' created successfully.`;
+    li.addEventListener('click', () => {
+      switchBranch(dirPath, branchName);
+    });
+    ul.appendChild(li);
+  } catch(err) {
+    console.error('Failed to create branch:', err);
+  }
 }
 
 async function getBranches(dirPath) {
