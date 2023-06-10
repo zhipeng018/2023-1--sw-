@@ -85,7 +85,7 @@ function createBranch(dirPath) {
 async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   const branches = await git(normalizedDirPath).branch();
-  const ul = document.querySelector('.fileprint');
+  const ul = document.querySelector('#fileprint');
   ul.innerHTML = ''; // 清空之前的内容
   branches.all.forEach((branch) => {
     const li = document.createElement('li');
