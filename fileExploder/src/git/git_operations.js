@@ -71,7 +71,7 @@ function createBranch(dirPath) {
     .branch([branchName])
     .then(() => {
       console.log(`Branch '${branchName}' created successfully.`);
-      const ul = document.querySelector('.fileprint');
+      const ul = document.querySelector('#fileprint');
       const li = document.createElement('li');
       li.textContent = `Branch '${branchName}' created successfully.`;
       li.addEventListener('click', () => {
@@ -107,7 +107,7 @@ async function switchBranch(dirPath, branchName) {
       .checkout(branchName)
       .then(() => {
         console.log(`Switched to branch '${branchName}' successfully.`);
-        const ul = document.querySelector('.fileprint');
+        const ul = document.querySelector('#fileprint');
         const li = document.createElement('li');
         li.textContent = `Switched to branch '${branchName}' successfully.`;
         ul.appendChild(li);
