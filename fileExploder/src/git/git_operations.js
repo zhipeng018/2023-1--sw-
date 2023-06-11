@@ -1,6 +1,7 @@
 const git = require('simple-git');
 const path = require('path');
 
+
 //当前路径
 function getCurrentPath() {
   const currentPath = document.getElementById('currentPath').textContent;
@@ -62,23 +63,48 @@ function getLog(dirPath) {
   return git(normalizedDirPath).log();
 }
 /// 创建分支
+
+const {dialog}  = require('electron');
+
 async function createBranch(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
-  const branchName = "branch" + Date.now(); // 使用当前时间戳来创建唯一的分支名
-  try {
-    await git(normalizedDirPath).branch([branchName]);
-    console.log(`Branch '${branchName}' created successfully.`);
-    const ul = document.querySelector('.fileprint');
-    const li = document.createElement('li');
-    li.textContent = `Branch '${branchName}' created successfully.`;
-    li.addEventListener('click', () => {
-      switchBranch(dirPath, branchName);
-    });
-    ul.appendChild(li);
-  } catch(err) {
-    console.error('Failed to create branch:', err);
+  
+  const result = dialog.showMessageBox({
+    type: 'question',
+    title: 'Create Branch',
+    message: 'Enter branch name:',
+    buttons: ['Create', 'Cancel'],
+    input: 'text',
+    normalizeAccessKeys: true,
+    defaultId: 0,
+    cancelId: 1
+  });
+
+  if (result.response === 0) {
+    const branchName = result.inputFieldValue.trim();
+    
+    if (branchName === '') {
+      console.error('Branch name cannot be empty.');
+      return;
+    }
+
+    try {
+      await git(normalizedDirPath).branch([branchName]);
+      console.log(`Branch '${branchName}' created successfully.`);
+      const ul = document.querySelector('.fileprint');
+      const li = document.createElement('li');
+      li.textContent = `Branch '${branchName}' created successfully.`;
+      li.addEventListener('click', () => {
+        switchBranch(dirPath, branchName);
+      });
+      ul.appendChild(li);
+    } catch(err) {
+      console.error('Failed to create branch:', err);
+    }
   }
 }
+
+
 
 async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
@@ -105,10 +131,10 @@ async function switchBranch(dirPath, branchName) {
       .checkout(branchName)
       .then(() => {
         console.log(`Switched to branch '${branchName}' successfully.`);
-        const ul = document.querySelector('#fileprint');
-        const li = document.createElement('li');
-        li.textContent = `Switched to branch '${branchName}' successfully.`;
-        ul.appendChild(li);
+        // const ul = document.querySelector('#fileprint');
+        // const li = document.createElement('li');
+        // li.textContent = `Switched to branch '${branchName}' successfully.`;
+        // ul.appendChild(li);
       })
       .catch((err) => console.error('Failed to switch branch:', err));
   }

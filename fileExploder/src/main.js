@@ -25,10 +25,6 @@ app.on('ready', function() {
         mainWindow = null
     })
 
-    const Octokit = require('@octokit/rest');
-    const octokit = new Octokit({
-        auth: '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',
-    });
 
     app.on('will-quit', () => {
         // Unregister a shortcut.
