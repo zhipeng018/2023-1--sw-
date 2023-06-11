@@ -107,8 +107,8 @@ async function switchBranch(dirPath, branchName) {
         console.log(`Switched to branch '${branchName}' successfully.`);
         const ul = document.querySelector('#fileprint');
         const li = document.createElement('li');
-        li.textContent = `Switched to branch '${branchName}' successfully.`;
-        ul.appendChild(li);
+        //li.textContent = `Switched to branch '${branchName}' successfully.`;
+        //ul.appendChild(li);
       })
       .catch((err) => console.error('Failed to switch branch:', err));
   }
