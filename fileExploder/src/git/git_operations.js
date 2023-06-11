@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 const git = require('simple-git');
 const path = require('path');
 
@@ -130,4 +129,4 @@ module.exports = {
   switchBranch,
   getBranches
 };
->>>>>>> parent of 50c53f25 (添加删除和切换分支功能)
+
