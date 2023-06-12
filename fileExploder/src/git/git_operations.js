@@ -1,7 +1,7 @@
 
 const git = require('simple-git');
 const path = require('path');
-const {dialog} = require('electron');
+
 
 //当前路径
 function getCurrentPath() {
@@ -65,6 +65,7 @@ function getLog(dirPath) {
 }
 /// 创建分支
 async function createBranch(dirPath) {
+  const { dialog } = require('@electron/remote')
   const normalizedDirPath = path.normalize(dirPath);
   
   const result = await dialog.showMessageBox({
