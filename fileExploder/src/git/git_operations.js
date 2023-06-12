@@ -69,9 +69,9 @@ async function createBranch(dirPath) {
   try {
     await git(normalizedDirPath).branch([branchName]);
     console.log(`Branch '${branchName}' created successfully.`);
-    const ul = document.querySelector('.fileprint');
+    const ul = document.querySelector('#fileprint');
     const li = document.createElement('li');
-    li.textContent = `Branch '${branchName}' created successfully.`;
+    //li.textContent = `Branch '${branchName}' created successfully.`;
     li.addEventListener('click', () => {
       switchBranch(dirPath, branchName);
     });
