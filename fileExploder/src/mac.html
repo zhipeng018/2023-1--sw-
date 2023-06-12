@@ -112,6 +112,7 @@
           <li>
             <button id="createBranch">CreateBranch</button>
             <script>
+              
               document.getElementById('createBranch').addEventListener('click', function() {
               const normalizedCurrentPath = getCurrentPath();
               gitOperations.createBranch(normalizedCurrentPath);
