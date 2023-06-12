@@ -102,21 +102,6 @@ async function createBranch(dirPath) {
       console.error('Failed to create branch:', err);
     }
 
-  const branchName = "branch" + Date.now(); // 使用当前时间戳来创建唯一的分支名
-  try {
-    await git(normalizedDirPath).branch([branchName]);
-    console.log(`Branch '${branchName}' created successfully.`);
-    const ul = document.querySelector('.fileprint');
-    const li = document.createElement('li');
-    li.textContent = `Branch '${branchName}' created successfully.`;
-    li.addEventListener('click', () => {
-      switchBranch(dirPath, branchName);
-    });
-    ul.appendChild(li);
-  } catch(err) {
-    console.error('Failed to create branch:', err);
->>>>>>> 78dc2e4e5b550a4baf8bbb50bd8f2c465523b7e9
-  }
 }
 
 
@@ -153,7 +138,7 @@ async function switchBranch(dirPath, branchName) {
       .catch((err) => console.error('Failed to switch branch:', err));
   }
 }
-
+}
 
 
 
