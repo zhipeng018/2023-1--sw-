@@ -22,9 +22,11 @@ This desktop application was developed based on Electron. Due to the use of Java
 - Upload selected files to a remote Git repository
 - View version control
 - Login to your Github account
-- Add empty folders (to be updated)
-- Delete files (to be updated)
-- Return to the previous path (to be corrected)
+- Delete branch
+- Create branch
+- checkout branch
+- Show commit log
+- Return to the previous path
 
 ### about API：The Github native API is used to obtain authentication and is primarily used for logging into Github accounts.
 Detailed documentation: github API（https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api?apiVersion=2022-11-28&tool=cli）
@@ -33,9 +35,9 @@ Detailed documentation: github API（https://docs.github.com/en/rest/guides/gett
 Detailed documentation: https://docs.github.com/zh/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
 
 ### Supported systems: 
-- Windows OS (currently)
+- Windows OS 
 - Linux (to be updated)
-- Mac OS (to be updated)
+- Mac OS 
 
 ### Download method: 
 We have packaged the project, go to the fileExploder/dist, to find /fileexploder Setup 1.0.0 .exe to download.
@@ -54,10 +56,9 @@ And you also can run the project by source code.
 
 We are not good at to build the application but we will fix the bug try our best.
 
-- add file button has no access
-- back button can't run on Windows Os
-- resource lose(with google bowser)
-- View version control can't show on the GUI
+- back button can't run on Windows Os(fix)
+- resource lose(fix)
+- View version control can't show on the GUI(fix)
 
 
 
