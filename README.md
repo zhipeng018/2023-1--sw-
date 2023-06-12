@@ -59,6 +59,8 @@ We are not good at to build the application but we will fix the bug try our best
 - back button can't run on Windows Os(fix)
 - resource lose(fix)
 - View version control can't show on the GUI(fix)
+- Sorry about this but we didn't contect the github account so maybe you can't use the pull and push button.(will fix)
+
 
 
 
