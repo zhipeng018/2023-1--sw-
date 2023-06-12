@@ -113,25 +113,12 @@ async function getBranches(dirPath) {
   branches.all.forEach((branch) => {
     const li = document.createElement('li');
     li.textContent = branch;
-
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', () => {
-      deleteBranch(dirPath, branch);
-    });
-
-    const checkoutButton = document.createElement('button');
-    checkoutButton.textContent = 'Checkout';
-    checkoutButton.addEventListener('click', () => {
+    li.addEventListener('click', () => {
       switchBranch(dirPath, branch);
     });
-
-    li.appendChild(checkoutButton);
-    li.appendChild(deleteButton);
     ul.appendChild(li);
   });
 }
-
 
 async function switchBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
@@ -151,25 +138,7 @@ async function switchBranch(dirPath, branchName) {
       .catch((err) => console.error('Failed to switch branch:', err));
   }
 }
-//删除分支
-async function deleteBranch(dirPath, branchName) {
-  const normalizedDirPath = path.normalize(dirPath);
-  try {
-    const currentBranch = (await git(normalizedDirPath).branch()).current;
-    if (currentBranch === branchName) {
-      alert("You can't delete the current branch. Please switch to another branch first.");
-      return;
-    }
-    if (branchName === 'main' || branchName === 'master') {
-      alert("You can't delete the main/master branch.");
-      return;
-    }
-    await git(normalizedDirPath).branch(['-d', branchName]);
-    console.log(`Branch '${branchName}' deleted successfully.`);
-  } catch(err) {
-    console.error('Failed to delete branch:', err);
-  }
-}
+
 
 
 
@@ -182,6 +151,5 @@ module.exports = {
   getLog,
   createBranch,
   switchBranch,
-  getBranches,
-  deleteBranch
+  getBranches
 };
