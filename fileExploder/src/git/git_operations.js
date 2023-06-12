@@ -1,7 +1,8 @@
 
 const git = require('simple-git');
 const path = require('path');
-const {dialog} =require('electron')
+
+
 //当前路径
 function getCurrentPath() {
   const currentPath = document.getElementById('currentPath').textContent;
@@ -63,47 +64,40 @@ function getLog(dirPath) {
   return git(normalizedDirPath).log();
 }
 /// 创建分支
-
+const prompt = require('electron-prompt');
 
 async function createBranch(dirPath) {
-  console.log(dialog,1111111111)
   const normalizedDirPath = path.normalize(dirPath);
   
-  const { response, inputFieldValue } = await dialog.showMessageBox({
-    type: 'question',
+  const branchName = await prompt({
     title: 'Create Branch',
-    message: 'Enter branch name:',
-    buttons: ['Create', 'Cancel'],
-    input: 'text',
-    normalizeAccessKeys: true,
-    defaultId: 0,
-    cancelId: 1
+    label: 'Enter branch name:',
+    value: '',
+    inputAttrs: {
+      type: 'text'
+    },
+    buttons: ['Create', 'Cancel']
   });
 
-  if (response === 0) {
-    const branchName = inputFieldValue.trim();
-    
-    if (branchName === '') {
-      console.error('Branch name cannot be empty.');
-      return;
-    }
+  if (branchName === null || branchName.trim() === '') {
+    console.error('Branch name cannot be empty.');
+    return;
+  }
 
-    try {
-      await git(normalizedDirPath).branch([branchName]);
-      console.log(`Branch '${branchName}' created successfully.`);
-      const ul = document.querySelector('.fileprint');
-      const li = document.createElement('li');
-      li.textContent = `Branch '${branchName}' created successfully.`;
-      li.addEventListener('click', () => {
-        switchBranch(dirPath, branchName);
-      });
-      ul.appendChild(li);
-    } catch(err) {
-      console.error('Failed to create branch:', err);
-    }
-
+  try {
+    await git(normalizedDirPath).branch([branchName]);
+    console.log(`Branch '${branchName}' created successfully.`);
+    const ul = document.querySelector('.fileprint');
+    const li = document.createElement('li');
+    li.textContent = `Branch '${branchName}' created successfully.`;
+    li.addEventListener('click', () => {
+      switchBranch(dirPath, branchName);
+    });
+    ul.appendChild(li);
+  } catch(err) {
+    console.error('Failed to create branch:', err);
+  }
 }
-
 
 async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
@@ -113,13 +107,61 @@ async function getBranches(dirPath) {
   branches.all.forEach((branch) => {
     const li = document.createElement('li');
     li.textContent = branch;
-    li.addEventListener('click', () => {
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+      deleteBranch(dirPath, branch);
+    });
+
+    const checkoutButton = document.createElement('button');
+    checkoutButton.textContent = 'Checkout';
+    checkoutButton.addEventListener('click', () => {
       switchBranch(dirPath, branch);
     });
+
+    const renameButton = document.createElement('button');
+    renameButton.textContent = 'Rename';
+    renameButton.addEventListener('click', () => {
+      renameBranch(dirPath, branch);
+    });
+
+    li.appendChild(checkoutButton);
+    li.appendChild(deleteButton);
+    li.appendChild(renameButton);
     ul.appendChild(li);
   });
 }
 
+//重命名分支
+async function renameBranch(dirPath, oldBranchName) {
+  const normalizedDirPath = path.normalize(dirPath);
+
+  const newBranchName = await prompt({
+    title: 'Rename Branch',
+    label: 'Enter new branch name:',
+    value: '',
+    inputAttrs: {
+      type: 'text'
+    },
+    buttons: ['Rename', 'Cancel']
+  });
+
+  if (newBranchName === null || newBranchName.trim() === '') {
+    console.error('Branch name cannot be empty.');
+    return;
+  }
+
+  try {
+    await git(normalizedDirPath).raw(['branch', '-m', oldBranchName, newBranchName]);
+    console.log(`Branch '${oldBranchName}' renamed to '${newBranchName}' successfully.`);
+    getBranches(dirPath); // 重新获取分支列表以显示更改
+  } catch(err) {
+    console.error('Failed to rename branch:', err);
+  }
+}
+
+//checkout分支
 async function switchBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
   const isRepo = await git(normalizedDirPath).checkIsRepo();
@@ -138,6 +180,24 @@ async function switchBranch(dirPath, branchName) {
       .catch((err) => console.error('Failed to switch branch:', err));
   }
 }
+//删除分支
+async function deleteBranch(dirPath, branchName) {
+  const normalizedDirPath = path.normalize(dirPath);
+  try {
+    const currentBranch = (await git(normalizedDirPath).branch()).current;
+    if (currentBranch === branchName) {
+      alert("You can't delete the current branch. Please switch to another branch first.");
+      return;
+    }
+    if (branchName === 'main' || branchName === 'master') {
+      alert("You can't delete the main/master branch.");
+      return;
+    }
+    await git(normalizedDirPath).branch(['-d', branchName]);
+    console.log(`Branch '${branchName}' deleted successfully.`);
+  } catch(err) {
+    console.error('Failed to delete branch:', err);
+  }
 }
 
 
@@ -151,5 +211,7 @@ module.exports = {
   getLog,
   createBranch,
   switchBranch,
-  getBranches
+  getBranches,
+  deleteBranch,
+  renameBranch
 };

@@ -6,7 +6,7 @@ var BrowserView = electron.BrowserView
 const path = require('path');
 
 var mainWindow = null
-
+app.allowRendererProcessReuse = true
 app.on('ready', function() {
     const mainWindow = new BrowserWindow({
         height: 500,
@@ -17,7 +17,8 @@ app.on('ready', function() {
             enableRemoteModule: true,
         }
     });
-
+    require('@electron/remote/main').enable(mainWindow.webContents)
+   
     require('@electron/remote/main').initialize()
     mainWindow.loadFile(path.resolve(__dirname, 'mac.html'))
     mainWindow.webContents.openDevTools()
