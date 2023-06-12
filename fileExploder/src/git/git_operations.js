@@ -3,13 +3,13 @@ const git = require('simple-git');
 const path = require('path');
 
 
-//当前路径
+//Get current path
 function getCurrentPath() {
   const currentPath = document.getElementById('currentPath').textContent;
   return path.normalize(currentPath);
 }
 
-// init button
+// Initializing the repo
 function initGit(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   console.log(`Attempting to initialize a repository at: ${normalizedDirPath}`);
@@ -19,7 +19,7 @@ function initGit(dirPath) {
 }
 
 
-// commit 按钮脚本
+// commit button
 function commitChanges(dirPath, message) {
   if (message !== null) {
     const normalizedDirPath = path.normalize(dirPath);
@@ -32,7 +32,7 @@ function commitChanges(dirPath, message) {
   }
 }
 
-// push 按钮脚本
+// push button
 function pushChanges(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   console.log(`Pushing changes from: ${normalizedDirPath}`);
@@ -41,7 +41,7 @@ function pushChanges(dirPath) {
     .catch((err) => console.error('Failed to push changes:', err));
 }
 
-//pull 按钮脚本
+//pull button
 function pullRepo(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   console.log(`Pulling changes from: ${normalizedDirPath}`);
@@ -50,7 +50,7 @@ function pullRepo(dirPath) {
     .catch((err) => console.error('Failed to pull changes:', err));
 }
 
-//fetch 按钮脚本
+//fetch button
 function fetchRepo(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   console.log(`Fetching changes from: ${normalizedDirPath}`);
@@ -58,12 +58,12 @@ function fetchRepo(dirPath) {
     .then(() => console.log('Changes fetched successfully.'))
     .catch((err) => console.error('Failed to fetch changes:', err));
 }
-//log 按钮脚本
+//log button
 function getLog(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   return git(normalizedDirPath).log();
 }
-/// 创建分支
+//create branch 
 const prompt = require('electron-prompt');
 
 async function createBranch(dirPath) {
@@ -103,7 +103,7 @@ async function getBranches(dirPath) {
   const normalizedDirPath = path.normalize(dirPath);
   const branches = await git(normalizedDirPath).branch();
   const ul = document.querySelector('#fileprint');
-  ul.innerHTML = ''; // 清空之前的内容
+  ul.innerHTML = ''; // Clear the previous content
   branches.all.forEach((branch) => {
     const li = document.createElement('li');
     li.textContent = branch;
@@ -133,7 +133,7 @@ async function getBranches(dirPath) {
   });
 }
 
-//重命名分支
+//rename branch
 async function renameBranch(dirPath, oldBranchName) {
   const normalizedDirPath = path.normalize(dirPath);
 
@@ -155,13 +155,13 @@ async function renameBranch(dirPath, oldBranchName) {
   try {
     await git(normalizedDirPath).raw(['branch', '-m', oldBranchName, newBranchName]);
     console.log(`Branch '${oldBranchName}' renamed to '${newBranchName}' successfully.`);
-    getBranches(dirPath); // 重新获取分支列表以显示更改
+    getBranches(dirPath); // Retrieve the branch list to show changes
   } catch(err) {
     console.error('Failed to rename branch:', err);
   }
 }
 
-//checkout分支
+//checkout button
 async function switchBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
   const isRepo = await git(normalizedDirPath).checkIsRepo();
@@ -180,7 +180,7 @@ async function switchBranch(dirPath, branchName) {
       .catch((err) => console.error('Failed to switch branch:', err));
   }
 }
-//删除分支
+//delete button
 async function deleteBranch(dirPath, branchName) {
   const normalizedDirPath = path.normalize(dirPath);
   try {

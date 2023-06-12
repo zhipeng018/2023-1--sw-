@@ -72,8 +72,8 @@
             <script>
               document.getElementById('commit').addEventListener('click', async function() {
                 const normalizedCurrentPath = getCurrentPath();
-                const fixedCommitMessage = 'My fixed commit message'; // 固定的提交消息
-                gitOperations.commitChanges(normalizedCurrentPath, fixedCommitMessage); // 使用固定的提交消息
+                const fixedCommitMessage = 'My fixed commit message'; // Fixed submission messages
+                gitOperations.commitChanges(normalizedCurrentPath, fixedCommitMessage); 
                 await updateHistory();
               });
             </script>
@@ -154,31 +154,29 @@
         <div class = "history">
           <ul id = "history">
             <script>
-              // 在初始化时获取 historyList 的引用
+              // Get a reference to the historyList at initialization time
               const historyList = document.getElementById('history');
             
               async function updateHistory() {
                 const normalizedCurrentPath = getCurrentPath();
                 const log = await gitOperations.getLog(normalizedCurrentPath);
             
-                historyList.innerHTML = ''; // 清空历史列表
+                historyList.innerHTML = ''; // Clear history list
             
-                // 创建一个 DocumentFragment 来存储新的列表项
+                // Create a DocumentFragment to store the new list items
                 const fragment = document.createDocumentFragment();
             
                 log.all.forEach(commit => {
                   const listItem = document.createElement('p');
                   listItem.textContent = `${commit.hash}: ${commit.message}`;
             
-                  // 将新的列表项添加到 fragment 中
+                  // Add a new list item to the fragment
                   fragment.appendChild(listItem);
                 });
             
-                // 一次性将所有新的列表项添加到 historyList 中
+                // Add all new list items to the historyList at once
                 historyList.appendChild(fragment);
               }
-            
-              // 在需要更新历史信息的地方调用 updateHistory() 函数
             </script>
             
               
